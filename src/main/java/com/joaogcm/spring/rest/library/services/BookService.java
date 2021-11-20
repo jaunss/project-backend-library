@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.joaogcm.spring.rest.library.entities.Book;
+import com.joaogcm.spring.rest.library.exceptions.BookNotFoundException;
 import com.joaogcm.spring.rest.library.repositories.BookRepository;
 
 @Service
@@ -40,11 +41,15 @@ public class BookService {
 
 	public Book findBookById(String idBook) {
 		Optional<Book> book = bookRepository.findById(idBook);
-		return book.orElseThrow(() -> new RuntimeException("Nenhum livro encontrado"));
+		return book.orElseThrow(() -> new BookNotFoundException("Nenhum livro encontrado"));
 	}
 
 	public List<Book> findAllBooks() {
 		List<Book> books = bookRepository.findAll();
 		return books;
+	}
+
+	public List<Book> findBookByTitleBook(String titleBook) {
+		return bookRepository.findBookByTitleBook(titleBook);
 	}
 }
